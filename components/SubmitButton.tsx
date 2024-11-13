@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { Button } from './ui/button'
 import Image from 'next/image'
 
