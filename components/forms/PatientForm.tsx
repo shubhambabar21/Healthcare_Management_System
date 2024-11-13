@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react/no-children-prop */
 "use client"
  
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -6,6 +8,9 @@ import { z } from "zod"
 import { Button } from "@/components/ui/button"
 import {Form} from "@/components/ui/form"
 import CustomFormField from "../CustomFormField"
+import SubmitButton from "../SubmitButton"
+import { Island_Moments } from "next/font/google"
+import { useState } from "react"
 
 export enum FormFieldType {
   INPUT = 'input',
@@ -25,6 +30,8 @@ const formSchema = z.object({
 })
  
 const PatientForm = () => {
+  const [isLoading,setIsLoading] = useState(false)
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -55,7 +62,34 @@ const PatientForm = () => {
           dateformat={""}
           field={""}     
            />
-      <Button type="submit">Submit</Button>
+
+            
+      <CustomFormField 
+          fieldType={FormFieldType.INPUT}
+          control={form.control}
+          name="email"
+          label="Email"
+          placeholder="abc@gmail.com"
+          iconSrc="/assets/icons/email.svg"
+          iconAlt="email" 
+          dateformat={""}
+          field={""}     
+           />
+
+
+        <CustomFormField 
+          fieldType={FormFieldType.PHONE_INPUT}
+          control={form.control}
+          name="phone"
+          label="Phone No"
+          placeholder="(+91 123-4567)" 
+          dateformat={""}
+          field={""}           
+          />
+
+      <SubmitButton isLoading={isLoading}>
+       Get Started
+      </SubmitButton>
     </form>
   </Form>
   )
