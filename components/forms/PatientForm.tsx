@@ -48,10 +48,10 @@ const PatientForm = () => {
     setIsLoading(true);
 
     try {
-    //  const userData ={name,email,phone}
-    //  const user =  await createUser(userData);
+     const userData ={name,email,phone}
+     const user =  await createUser(userData);
 
-    //  if(user) router.push(`/patients/{user.$id}/register`)
+     if(user) router.push(`/patients/{user.$id}/register`)
     } catch (error) {
       console.log(error);
     }
@@ -109,3 +109,7 @@ const PatientForm = () => {
 }
 
 export default PatientForm
+function createUser(userData: { name: string; email: string; phone: string }) {
+  throw new Error("Function not implemented.")
+}
+
