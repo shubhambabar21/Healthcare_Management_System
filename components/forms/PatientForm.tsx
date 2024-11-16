@@ -12,6 +12,7 @@ import { Island_Moments } from "next/font/google"
 import { useState } from "react"
 import { UserFormValidation } from "@/lib/validation"
 import { useRouter } from "next/navigation"
+import { users } from '../../lib/appwrite.config';
 
 export enum FormFieldType {
   INPUT = 'input',
@@ -51,7 +52,7 @@ const PatientForm = () => {
      const userData ={name,email,phone}
      const user =  await createUser(userData);
 
-     if(user) router.push(`/patients/{user.$id}/register`)
+     if (users) router.push(`/patients/{user.$id}/register`)
     } catch (error) {
       console.log(error);
     }
