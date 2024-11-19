@@ -1,116 +1,92 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-"use client"
- 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-import { Button } from "@/components/ui/button"
-import {Form} from "@/components/ui/form"
-import CustomFormField from "../CustomFormField"
-import SubmitButton from "../SubmitButton"
-import { Island_Moments } from "next/font/google"
-import { useState } from "react"
-import { UserFormValidation } from "@/lib/validation"
-import { useRouter } from "next/navigation"
-import { users } from '../../lib/appwrite.config';
+"use client";
 
-export enum FormFieldType {
-  INPUT = 'input',
-  TEXTAREA = 'textarea',
-  PHONE_INPUT = 'phoneInput',
-  CHECKBOX = 'checkbox',
-  DATE_PIKER = 'datePicker',
-  SELECT = 'select',
-  SKELETON = 'skeleton'
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
-}
- 
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-})
- 
-const PatientForm = () => {
-  const router= useRouter();
-  const [isLoading,setIsLoading] = useState(false)
+import { Form } from "@/components/ui/form";
+import { createUser } from "@/lib/actions/patient.actions";
+import { UserFormValidation } from "@/lib/validation";
+
+import "react-phone-number-input/style.css";
+import CustomFormField from "../CustomFormField";
+import { FormFieldType } from "../CustomFormField"
+import SubmitButton from "../SubmitButton";
+
+export const PatientForm = () => {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof UserFormValidation>>({
     resolver: zodResolver(UserFormValidation),
     defaultValues: {
-      name:  "",
+      name: "",
       email: "",
       phone: "",
     },
-  })
- 
- 
- async function onSubmit({name,email,phone}: z.infer<typeof UserFormValidation>) {
+  });
+
+  const onSubmit = async (values: z.infer<typeof UserFormValidation>) => {
     setIsLoading(true);
 
     try {
-     const userData ={name,email,phone}
-     const user =  await createUser(userData);
+      const user = {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+      };
 
-     if (users) router.push(`/patients/{user.$id}/register`)
+      const newUser = await createUser(user);
+
+      if (newUser) {
+        router.push(`/patients/${newUser.$id}/register`);
+      }
     } catch (error) {
       console.log(error);
     }
-  }
+
+    setIsLoading(false);
+  };
+
   return (
     <Form {...form}>
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex-1">
-      <section className="mb-12 space-y-4">
-      <h1 className="header">Hi There👋</h1>
-      <p className="text-dark-700">Schedule your first appointment</p>
-      </section>
-      
-      <CustomFormField 
+      <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 space-y-6">
+        <section className="mb-12 space-y-4">
+          <h1 className="header">Hi there 👋</h1>
+          <p className="text-dark-700">Get started with appointments.</p>
+        </section>
+
+        <CustomFormField
           fieldType={FormFieldType.INPUT}
           control={form.control}
           name="name"
           label="Full name"
-          placeholder="Shubham"
+          placeholder="John Doe"
           iconSrc="/assets/icons/user.svg"
-          iconAlt="user" 
-          dateformat={""}
-          field={""}     
-           />
+          iconAlt="user" dateformat={""} field={""}        />
 
-            
-      <CustomFormField 
+        <CustomFormField
           fieldType={FormFieldType.INPUT}
           control={form.control}
           name="email"
           label="Email"
-          placeholder="abc@gmail.com"
+          placeholder="johndoe@gmail.com"
           iconSrc="/assets/icons/email.svg"
-          iconAlt="email" 
-          dateformat={""}
-          field={""}     
-           />
+          iconAlt="email" dateformat={""} field={""}        />
 
-
-        <CustomFormField 
+        <CustomFormField
           fieldType={FormFieldType.PHONE_INPUT}
           control={form.control}
           name="phone"
-          label="Phone No"
-          placeholder="(+91 123-4567)" 
-          dateformat={""}
-          field={""}           
-          />
+          label="Phone number"
+          placeholder="(555) 123-4567" dateformat={""} field={""}        />
 
-      <SubmitButton isLoading={isLoading}>
-       Get Started
-      </SubmitButton>
-    </form>
-  </Form>
-  )
-}
+        <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
+      </form>
+    </Form>
+  );
+};
 
-export default PatientForm
-function createUser(userData: { name: string; email: string; phone: string }) {
-  throw new Error("Function not implemented.")
-}
-
+export { FormFieldType };
