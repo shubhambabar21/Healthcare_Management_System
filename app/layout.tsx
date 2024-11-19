@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
+import { Plus_Jakarta_Sans as FontSans } from "next/font/google";
+import { ThemeProvider } from "next-themes";
 
 import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/components/theme-provider";
 
-const fontSans = Plus_Jakarta_Sans({
+const fontSans = FontSans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-sans",
@@ -13,7 +13,11 @@ const fontSans = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "CarePulse",
-  description: "A Healthcare Management System",
+  description:
+    "A healthcare patient management System designed to streamline patient registration, appointment scheduling, and medical records management for healthcare providers.",
+  icons: {
+    icon: "/assets/icons/logo-icon.svg",
+  },
 };
 
 export default function RootLayout({
@@ -21,15 +25,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  console.log("Font variable:", fontSans.variable); // Debug: Ensure consistent output on SSR and CSR
+
   return (
     <html lang="en">
+      {/* Static class 'dark' added to enforce the dark theme */}
       <body
         className={cn(
-          "min-h-screen bg-dark-300 font-sans antiliased",
+          "min-h-screen bg-dark-300 font-sans antialiased dark", // Ensure 'dark' is applied statically
           fontSans.variable
         )}
       >
-        <ThemeProvider >
+        {/* Removed enableSystem and forced static theme */}
+        <ThemeProvider attribute="class" defaultTheme="dark">
           {children}
         </ThemeProvider>
       </body>
