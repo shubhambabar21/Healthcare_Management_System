@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Plus_Jakarta_Sans as FontSans } from "next/font/google";
-import { ThemeProvider } from "next-themes";
+
 
 import { cn } from "@/lib/utils";
 
@@ -28,18 +28,14 @@ export default function RootLayout({
   console.log("Font variable:", fontSans.variable); // Debug: Ensure consistent output on SSR and CSR
 
   return (
-    <html lang="en">
-      {/* Static class 'dark' added to enforce the dark theme */}
+    <html lang="en" style={{colorScheme: 'dark'}}>
       <body
         className={cn(
           "min-h-screen bg-dark-300 font-sans antialiased dark", // Ensure 'dark' is applied statically
           fontSans.variable
         )}
       >
-        {/* Removed enableSystem and forced static theme */}
-        <ThemeProvider attribute="class" defaultTheme="dark">
-          {children}
-        </ThemeProvider>
+       {children}
       </body>
     </html>
   );
