@@ -1,12 +1,18 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import RegisterForm from '@/components/forms/Registerform'
-import { Link } from 'lucide-react'
+import { getUser } from '@/lib/actions/patient.actions'
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
-const Register = () => {
+const Register = async({params:{userId}} : SearchParamProps) => {
+  const user = await getUser(userId);;
+
+
+
   return (
     <div className="flex h-screen max-h-screen">
-     {/*todo:Otp verification/passkey model*/}
+     
 
       <section className="remove-scrollbar container my-auto ">
         <div className="sub-container max-w-[496px]">
@@ -18,7 +24,7 @@ const Register = () => {
        className="mb-12 h-10 w-fit" 
       />
      
-        <RegisterForm/>
+        <RegisterForm user = {user}/>
       <div className="text-14-regular mt-20 flex justify-between">
       <p className="justify-items-end text-dark-600 xl:text-left">
       © 2024 CarePluse
@@ -34,7 +40,7 @@ const Register = () => {
         height={1000}
         width={1000}
         alt="patient"
-        className="side-img max-w-[50%]"
+        className="side-img max-w-[397px]"
         />
     </div> 
   )
