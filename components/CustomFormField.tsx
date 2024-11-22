@@ -16,6 +16,9 @@ import { Control } from "react-hook-form"
 import 'react-phone-number-input/style.css'
 import PhoneInput from 'react-phone-number-input'
 import Image from "next/image"
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 export enum FormFieldType {
   INPUT = "input",
@@ -47,7 +50,7 @@ interface CustomProps {
 }
 
 const RenderField = ({field, props}:{field: any ; props : CustomProps })=>{
-  const {fieldType,iconSrc,iconAlt,placeholder} =props;
+  const {fieldType,iconSrc,iconAlt,placeholder,showtimeSelect,dateformat,renderSkeleton} =props;
    switch (fieldType) {
     case FormFieldType.INPUT:
       return(
@@ -85,6 +88,30 @@ const RenderField = ({field, props}:{field: any ; props : CustomProps })=>{
             />
           </FormControl>
         )
+        case FormFieldType.DATE_PICKER:
+          return(
+            <div className="flex rounded-md border-dark-500 bg-dark-400">
+              <Image
+              src="/assets/icons/calender.svg"
+              height={24}
+              width={24}
+              alt="Calender"
+              className="ml-2"
+               /> 
+
+               <FormControl>
+               <DatePicker selected={field.value} onChange={(date) => field.onChange(date)} 
+                dateFormat={dateformat ?? 'MM/dd/yyyy'}
+                showTimeSelect={showtimeSelect ?? false}
+                timeInputLabel="Time:"
+                wrapperClassName="date-picker"
+                />
+                </FormControl>             
+            </div>
+          )
+          case FormFieldType.SKELETON:
+            return renderSkeleton ? renderSkeleton(field) : null
+            
     default:
       break;
    }

@@ -17,6 +17,8 @@ import CustomFormField from "../CustomFormField";
 import { FormFieldType } from "../CustomFormField"
 import SubmitButton from "../SubmitButton";
 import { Label } from "@radix-ui/react-label";
+import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
+import { GenderOptions } from "@/constants";
 
 export const RegisterForm = ({user}:{user:User}) => {
   const router = useRouter();
@@ -128,6 +130,12 @@ export const RegisterForm = ({user}:{user:User}) => {
               </FormControl>
             )} dateformat={""} field={""}            />
       </div>
+      {/* <section className="space-y-6">
+          <div className="mb-9 space-y-1">
+          <h2 className="sub-headrer">Medical Information </h2>
+          </div>
+           
+        </section> */}
       <div className="flex flex-col gap-6 xl:flex-row">
 
       </div>
