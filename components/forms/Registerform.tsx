@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/jsx-no-undef */
 /* eslint-disable @typescript-eslint/no-unused-vars */
  "use client";
@@ -18,7 +19,15 @@ import { FormFieldType } from "../CustomFormField"
 import SubmitButton from "../SubmitButton";
 import { Label } from "@radix-ui/react-label";
 import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { GenderOptions } from "@/constants";
+import {
+  Doctors,
+  GenderOptions,
+  IdentificationTypes,
+  PatientFormDefaultValues,
+} from "@/constants";
+import { SelectItem } from "../ui/select";
+import Image from "next/image";
+
 
 export const RegisterForm = ({user}:{user:User}) => {
   const router = useRouter();
@@ -130,18 +139,75 @@ export const RegisterForm = ({user}:{user:User}) => {
               </FormControl>
             )} dateformat={""} field={""}            />
       </div>
-      {/* <section className="space-y-6">
+      
+      <div className="flex flex-col gap-6 xl:flex-row">
+      <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="address"
+            label="Address"
+            placeholder="21st street, New york "
+            dateformat={""} 
+            field={""}                  />
+
+         <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="occupation"
+            label="Occupation"
+            placeholder="Software Engineer" 
+            dateformat={""} 
+            field={""}                 />
+      </div>
+      <div className="flex flex-col gap-6 xl:flex-row">
+      <CustomFormField
+          fieldType={FormFieldType.INPUT}
+          control={form.control}
+          name="emergencyContactName"
+          label="Emergency Contact Name"
+          placeholder="Guardians name"
+         dateformat={""} 
+         field={""}        />
+
+        <CustomFormField
+          fieldType={FormFieldType.PHONE_INPUT}
+          control={form.control}
+          name="emergencyContactNumber"
+          label="Emergency Contact Number"
+          placeholder="(555) 123-4567" dateformat={""} field={""}        />
+      </div>
+
+      <section className="space-y-6">
           <div className="mb-9 space-y-1">
           <h2 className="sub-headrer">Medical Information </h2>
           </div>
            
-        </section> */}
-      <div className="flex flex-col gap-6 xl:flex-row">
+          <CustomFormField
+          fieldType={FormFieldType.SELECT}
+          control={form.control}
+          name="primaryPhysician"
+          label="Primary Physician"
+          placeholder="Select a physician" dateformat={""} field={""}     >
+          
+          {Doctors.map((doctor,i) => (
+              <SelectItem key={doctor.name + i} value={doctor.name}>
+                <div className="flex cursor-pointer items-center gap-2">
+                  <Image
+                    src={doctor.image}
+                    width={32}
+                    height={32}
+                    alt="doctor"
+                    className="rounded-full border border-dark-500"
+                  />
+                  <p>{doctor.name}</p>
+                </div>
+              </SelectItem>
+            ))}
 
-      </div>
-      <div className="flex flex-col gap-6 xl:flex-row">
+          </CustomFormField>
 
-      </div>
+        </section>
+
       <div className="flex flex-col gap-6 xl:flex-row">
 
       </div>
