@@ -85,7 +85,7 @@ export const RegisterForm = ({user}:{user:User}) => {
           label="Full name"
           placeholder="John Doe"
           iconSrc="/assets/icons/user.svg"
-          iconAlt="user" dateformat={""} field={""}        />
+          iconAlt="user"        />
 
      <div className="flex flex-col gap-6 xl:flex-row">
         <CustomFormField
@@ -95,14 +95,14 @@ export const RegisterForm = ({user}:{user:User}) => {
           label="Email"
           placeholder="johndoe@gmail.com"
           iconSrc="/assets/icons/email.svg"
-          iconAlt="email" dateformat={""} field={""}        />
+          iconAlt="email"        />
 
         <CustomFormField
           fieldType={FormFieldType.PHONE_INPUT}
           control={form.control}
           name="phone"
           label="Phone number"
-          placeholder="(555) 123-4567" dateformat={""} field={""}        />
+          placeholder="(555) 123-4567"         />
           
       </div>
 
@@ -112,10 +112,9 @@ export const RegisterForm = ({user}:{user:User}) => {
             control={form.control}
             name="BirthDate"
             label="Date of Birth" 
-            dateformat={""} 
-            field={""}                />
+                            />
 
-<CustomFormField
+      <CustomFormField
             fieldType={FormFieldType.SKELETON}
             control={form.control}
             name="gender"
@@ -137,7 +136,7 @@ export const RegisterForm = ({user}:{user:User}) => {
                   ))}
                 </RadioGroup>
               </FormControl>
-            )} dateformat={""} field={""}            />
+            )}            />
       </div>
       
       <div className="flex flex-col gap-6 xl:flex-row">
@@ -147,8 +146,7 @@ export const RegisterForm = ({user}:{user:User}) => {
             name="address"
             label="Address"
             placeholder="21st street, New york "
-            dateformat={""} 
-            field={""}                  />
+                            />
 
          <CustomFormField
             fieldType={FormFieldType.INPUT}
@@ -156,8 +154,7 @@ export const RegisterForm = ({user}:{user:User}) => {
             name="occupation"
             label="Occupation"
             placeholder="Software Engineer" 
-            dateformat={""} 
-            field={""}                 />
+                           />
       </div>
       <div className="flex flex-col gap-6 xl:flex-row">
       <CustomFormField
@@ -166,28 +163,28 @@ export const RegisterForm = ({user}:{user:User}) => {
           name="emergencyContactName"
           label="Emergency Contact Name"
           placeholder="Guardians name"
-         dateformat={""} 
-         field={""}        />
+                 />
 
         <CustomFormField
           fieldType={FormFieldType.PHONE_INPUT}
           control={form.control}
           name="emergencyContactNumber"
           label="Emergency Contact Number"
-          placeholder="(555) 123-4567" dateformat={""} field={""}        />
+          placeholder="(555) 123-4567"         />
       </div>
 
       <section className="space-y-6">
           <div className="mb-9 space-y-1">
           <h2 className="sub-headrer">Medical Information </h2>
           </div>
-           
+      </section>
+         
           <CustomFormField
           fieldType={FormFieldType.SELECT}
           control={form.control}
           name="primaryPhysician"
           label="Primary Physician"
-          placeholder="Select a physician" dateformat={""} field={""}     >
+          placeholder="Select a physician"      >
           
           {Doctors.map((doctor,i) => (
               <SelectItem key={doctor.name + i} value={doctor.name}>
@@ -206,11 +203,64 @@ export const RegisterForm = ({user}:{user:User}) => {
 
           </CustomFormField>
 
-        </section>
+        
 
       <div className="flex flex-col gap-6 xl:flex-row">
+      <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="insuranceProvider"
+            label="Insurance provider"
+            placeholder="BlueCross BlueShield "
+                           />
 
+         <CustomFormField
+            fieldType={FormFieldType.INPUT}
+            control={form.control}
+            name="insurancePolicyNumber"
+            label="Insurance policy number"
+            placeholder="ABC123456789" 
+                             />
       </div>
+      <div className="flex flex-col gap-6 xl:flex-row">
+      <CustomFormField
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="allergies"
+            label="Allergies(if any)"
+            placeholder="Peanuts,Pencilin,Pollen"
+                              />
+
+         <CustomFormField
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="currentMedication"
+            label="Current Medication(if any)"
+            placeholder="Ibuprofen 200mg,Paracetamol 500mg" 
+                             />
+      </div>
+      <div className="flex flex-col gap-6 xl:flex-row">
+      <CustomFormField
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="familyMedicalHistory"
+            label="Family medical history"
+            placeholder="Mother had a brain cancer,Father had a heart disease"
+                             />
+
+         <CustomFormField
+            fieldType={FormFieldType.TEXTAREA}
+            control={form.control}
+            name="pastMedicalHistory"
+            label="Past medical history"
+            placeholder="Appendectomy,Tonsillectomy" 
+                           />
+      </div>
+      <section className="space-y-6">
+          <div className="mb-9 space-y-1">
+          <h2 className="sub-headrer">Identification and Verification</h2>
+          </div>
+      </section>
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>
     </Form>
