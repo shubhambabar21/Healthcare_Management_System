@@ -6,9 +6,7 @@ import Link from 'next/link'
 import React from 'react'
 
 const Register = async({params:{userId}} : SearchParamProps) => {
-  const user = await getUser(userId);
-
-
+  const user =  await getUser (userId);
 
   return (
     <div className="flex h-screen max-h-screen">
@@ -40,7 +38,7 @@ const Register = async({params:{userId}} : SearchParamProps) => {
         height={1000}
         width={1000}
         alt="patient"
-        className="side-img max-w-[397px]"
+        className="side-img max-w-[390px]"
         />
     </div> 
   )
