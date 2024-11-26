@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,7 +16,13 @@ import CustomFormField from "../CustomFormField";
 import { FormFieldType } from "../CustomFormField"
 import SubmitButton from "../SubmitButton";
 
-export const PatientForm = () => {
+export const AppointmentForm = ({
+    userId,type,patientId
+}:{
+    userId:string;
+    patientId:string,
+    type:"create"|"cancel";
+}) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -54,8 +61,8 @@ export const PatientForm = () => {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 space-y-6">
         <section className="mb-12 space-y-4">
-          <h1 className="header">Hi there 👋</h1>
-          <p className="text-dark-700">Get started with appointments.</p>
+          <h1 className="header">New Appointment</h1>
+          <p className="text-dark-700">Request a new appointment in 10 seconds</p>
         </section>
 
         <CustomFormField
@@ -65,7 +72,7 @@ export const PatientForm = () => {
           label="Full name"
           placeholder="John Doe"
           iconSrc="/assets/icons/user.svg"
-          iconAlt="user"  />
+          iconAlt="user"   />
 
         <CustomFormField
           fieldType={FormFieldType.INPUT}
@@ -74,14 +81,14 @@ export const PatientForm = () => {
           label="Email"
           placeholder="johndoe@gmail.com"
           iconSrc="/assets/icons/email.svg"
-          iconAlt="email"    />
+          iconAlt="email"   />
 
         <CustomFormField
           fieldType={FormFieldType.PHONE_INPUT}
           control={form.control}
           name="phone"
           label="Phone number"
-          placeholder="(555) 123-4567"      />
+          placeholder="(555) 123-4567"     />
 
         <SubmitButton isLoading={isLoading}>Get Started</SubmitButton>
       </form>
