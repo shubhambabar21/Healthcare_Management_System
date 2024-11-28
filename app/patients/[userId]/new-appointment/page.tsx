@@ -18,9 +18,10 @@ export default async function NewAppointment({params : {userId}}:SearchParamProp
             className="mb-12 h-10 w-fit"
           />
 
-          <AppointmentForm
+           <AppointmentForm
+            patientId={patient?.$id}
+            userId={userId}
             type="create"
-            userId={userId} patientId={patient.$id}          // patientId={patient.$id}
           />
 
         
