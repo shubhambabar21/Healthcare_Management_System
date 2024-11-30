@@ -11,7 +11,7 @@ export const createAppointment = async (appointment:CreateAppointmentParams ) =>
             APPOINTMENT_COLLECTION_ID!,
             ID.unique(),
             appointment
-          );
+          )
       
           return parseStringify(newAppointment);
     } catch (error) {

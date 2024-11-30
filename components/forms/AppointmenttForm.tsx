@@ -48,9 +48,11 @@ export const AppointmentForm = ({
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof AppointmentFormValidation>) => {
+  const onSubmit = async (
+    values: z.infer<typeof AppointmentFormValidation>
+  ) => {
     setIsLoading(true);
-   
+
     let status;
     switch (type) {
       case "schedule":
@@ -62,6 +64,7 @@ export const AppointmentForm = ({
       default:
         status = "pending";
     }
+
 
     try {
       if (type === "create" && patientId) {
@@ -99,7 +102,7 @@ export const AppointmentForm = ({
       buttonLabel = "Cancel Appointment";
       break;
     case "create":
-      buttonLabel = "Cancel Appointment";
+      buttonLabel = "Create Appointment";
       break;
     case "schedule":
       buttonLabel = "Schedule Appointment";
