@@ -1,111 +1,108 @@
+/* eslint-disable react/jsx-no-undef */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useForm, Control } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { Form } from "@/components/ui/form";
 import { createUser } from "@/lib/actions/patient.actions";
-import { getAppointmentSchema } from "@/lib/validation";
+import  {CreateAppointmentSchema, getAppointmentSchema} from "@/lib/validation";
 
 import "react-phone-number-input/style.css";
-import CustomFormField from "../CustomFormField";
-import { FormFieldType } from "../CustomFormField";
+import CustomFormField, { FormFieldType } from "../CustomFormField"
 import SubmitButton from "../SubmitButton";
 import { Doctors } from "@/constants";
 import { SelectItem } from "../ui/select";
 import Image from "next/image";
 import { createAppointment } from "@/lib/actions/appointment.actions";
 
-export const AppointmentForm = ({
-  userId,
-  type,
-  patientId,
+
+const AppointmentForm = ({
+  userId, patientId, type
 }: {
   userId: string;
   patientId: string;
-  type: "create" | "schedule" | "cancel";
+  type: "create" | "cancel" | "schedule";
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
 
   const AppointmentFormValidation = getAppointmentSchema(type);
-
-
   const form = useForm<z.infer<typeof AppointmentFormValidation>>({
-    resolver: zodResolver(AppointmentFormValidation),
+    resolver: zodResolver( AppointmentFormValidation),
     defaultValues: {
      primaryPhysician:"",
-     schedule:new Date(),
-     reason:"",
-     note:"",
+     schedule: new Date(),
+     reason: "",
+     note: "",
      cancellationReason:"",
 
 
     },
   });
 
-  const onSubmit = async (
-    values: z.infer<typeof AppointmentFormValidation>
-  ) => {
+  const onSubmit = async (values: z.infer<typeof AppointmentFormValidation>) => {
     setIsLoading(true);
 
     let status;
-    switch (type) {
-      case "schedule":
-        status = "scheduled";
-        break;
-      case "cancel":
-        status = "cancelled";
-        break;
-      default:
-        status = "pending";
-    }
 
+    switch (type) {
+      case 'schedule':
+        status = 'scheduled';
+        break;
+    case 'cancel':
+        status = 'cancelled';
+      default:
+        status = 'pending';
+        break;
+    }
 
     try {
-      if (type === "create" && patientId) {
-        const appointmentData = {
+      if(type  === 'create' && patientId){
+        const appointmentData= {
           userId,
-          patient: patientId,
+          patient:patientId,
           primaryPhysician: values.primaryPhysician,
           schedule: new Date(values.schedule),
-          reason: values.reason!,
+          reason:values.reason!,
+          note:values.note,
           status: status as Status,
-          note: values.note,
-        }
-        const appointment = await createAppointment(appointmentData)
 
-        if(appointment){
-          form.reset();
-          router.push(
-            `/patients/${userId}/new-appointment/success?appointmentId=${appointment.$id}`
-          );
+
         }
-    }
-   
-  }
-     catch (error) {
+        const appointment = await createAppointment(appointmentData);
+
+      if(appointment){
+        form.reset();
+        router.push(
+          `/patients/${userId}/new-appointment/success?appointmentId=${appointment.id}`
+        );
+ }
+
+ }
+
+     } catch (error) {
       console.log(error);
     }
 
-    setIsLoading(false);
-  };
+    setIsLoading(true);
+  }
 
   let buttonLabel;
 
   switch (type) {
-    case "cancel":
-      buttonLabel = "Cancel Appointment";
+    case 'cancel':
+      buttonLabel = 'Cancel Appointment'
       break;
-    case "create":
-      buttonLabel = "Create Appointment";
+    case 'create':
+      buttonLabel = 'Create Appointment'
       break;
-    case "schedule":
-      buttonLabel = "Schedule Appointment";
+    case 'schedule':
+      buttonLabel = 'Schedule Appointment'
       break;
 
     default:
@@ -117,9 +114,7 @@ export const AppointmentForm = ({
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex-1 space-y-6">
         <section className="mb-12 space-y-4">
           <h1 className="header">New Appointment</h1>
-          <p className="text-dark-700">
-            Request a new appointment in 10 seconds
-          </p>
+          <p className="text-dark-700">Requesting an new apppointments in 10 seconds</p>
         </section>
 
         {type !== "cancel" && (
@@ -131,8 +126,8 @@ export const AppointmentForm = ({
               label="Doctor"
               placeholder="Select a doctor"
             >
-              {Doctors.map((doctor, i) => (
-                <SelectItem key={doctor.name + i} value={doctor.name}>
+              {Doctors.map((doctor) => (
+                <SelectItem key={doctor.name} value={doctor.name}>
                   <div className="flex cursor-pointer items-center gap-2">
                     <Image
                       src={doctor.image}
@@ -151,12 +146,13 @@ export const AppointmentForm = ({
               fieldType={FormFieldType.DATE_PICKER}
               control={form.control}
               name="schedule"
-              label="Expected Appointment Date"
+              label="Expected appointment date"
               showTimeSelect
               dateFormat="MM/dd/yyyy - h:mm aa"
             />
 
-            <div className={`flex flex-col gap-6  ${type === "create" && "xl:flex-row"}`}>
+            <div className="flex flex-col gap-10  xl:flex-row">
+
               <CustomFormField
                 fieldType={FormFieldType.TEXTAREA}
                 control={form.control}
@@ -182,21 +178,15 @@ export const AppointmentForm = ({
             control={form.control}
             name="cancellationReason"
             label="Reason for cancellation"
-            placeholder="Enter reason for cancellation"
+            placeholder="Enter reason for cancellation "
           />
+
         )}
 
-        <SubmitButton
-          isLoading={isLoading}
-          className={`${
-            type === "cancel" ? "shad-danger-btn" : "shad-primary-btn"
-          } w-full`}
-        >
-          {buttonLabel}
-        </SubmitButton>
+        <SubmitButton isLoading={isLoading} className={`${type === 'cancel' ? 'shad-danger-btn' : 'shad-primary-btn'} w-full `}> {buttonLabel} </SubmitButton>
       </form>
     </Form>
   );
 };
 
-export { FormFieldType };
+export default AppointmentForm;

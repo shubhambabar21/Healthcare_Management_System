@@ -1,4 +1,5 @@
-'use sever'
+'use server'
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { ID } from "node-appwrite";
 import { APPOINTMENT_COLLECTION_ID, DATABASE_ID, databases,} from "../appwrite.config";
