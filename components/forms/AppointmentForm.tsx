@@ -79,7 +79,7 @@ const AppointmentForm = ({
       if(appointment){
         form.reset();
         router.push(
-          `/patients/${userId}/new-appointment/success?appointmentId=${appointment.id}`
+          `/patients/${userId}/new-appointment/success?appointmentId=${appointment.$id}`
         );
  }
 
@@ -89,7 +89,7 @@ const AppointmentForm = ({
       console.log(error);
     }
 
-    setIsLoading(true);
+    setIsLoading(false);
   }
 
   let buttonLabel;
