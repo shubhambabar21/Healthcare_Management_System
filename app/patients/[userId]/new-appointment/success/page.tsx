@@ -8,9 +8,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-const Success = async ({params: {userId}, searchParams}:SearchParamProps) => {
-    const appointmentId = (searchParams?.appointmentId as string ) || "";
-    const appointment = await getAppointment(appointmentId);
+const Success = async ({
+  searchParams,
+  params: { userId },
+}: SearchParamProps) => {
+  const appointmentId = (searchParams?.appointmentId as string) || "";
+  const appointment = await getAppointment(appointmentId);
+
     const doctor = Doctors.find(
         (doc) => doc.name === appointment.primaryPhysician
       );
@@ -35,6 +39,7 @@ const Success = async ({params: {userId}, searchParams}:SearchParamProps) => {
      height={300}
      width={280}
      alt="success"
+     unoptimized
      
      />
      

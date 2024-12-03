@@ -6,7 +6,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -31,7 +31,7 @@ const AppointmentForm = ({
   patientId: string;
   type: "create" | "cancel" | "schedule";
   appointment?:Appointment;
-  setOpen:(open:boolean) =>void;
+  setOpen?: Dispatch<SetStateAction<boolean>>;
 }) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
