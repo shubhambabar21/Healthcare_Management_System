@@ -1,15 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import Image from "next/image";
-import { redirect } from "next/navigation";
-
 import RegisterForm from "@/components/forms/Registerform";
 import { getPatient, getUser } from "@/lib/actions/patient.actions";
 
 const Register = async ({ params: { userId } }: SearchParamProps) => {
   const user = await getUser(userId);
   const patient = await getPatient(userId);
-
-  if (patient) redirect(`/patients/${userId}/new-appointment`);
-
+ 
   return (
     <div className="flex h-screen max-h-screen">
       <section className="remove-scrollbar container">
