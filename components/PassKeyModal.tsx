@@ -1,69 +1,69 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import React, { useEffect } from "react";
-import { useState } from "react";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
 import {
   AlertDialog,
   AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import {
   InputOTP,
   InputOTPGroup,
-  InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
-
-import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
 import { decryptKey, encryptKey } from "@/lib/utils";
 
-const PassKeyModal = () => {
+export const PasskeyModal = () => {
   const router = useRouter();
   const path = usePathname();
-  const [open, setOpen] = useState(true);
-  const[passkey,setPasskey] = useState('');
-  const[error , setError] = useState('');
+  const [open, setOpen] = useState(false);
+  const [passkey, setPasskey] = useState("");
+  const [error, setError] = useState("");
 
-  const encryptedKey = typeof window !== 'undefined' ? window.localStorage.getItem('accessKey') :null;
-useEffect(()=>{
-  const accessKey = encryptedKey && decryptKey(encryptedKey);
-  
-if(path){
-  if(accessKey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY){
-     setOpen(false);
-     router.push('/admin');
-     }else{
-       setOpen(true);
-     }
-}
+  const encryptedKey =
+    typeof window !== "undefined"
+      ? window.localStorage.getItem("accessKey")
+      : null;
 
-  },  [ encryptedKey ] )
-   
-  const validatePasskey = (e:React.MouseEvent <HTMLButtonElement,MouseEvent>) => {
-    e.preventDefault();
+  useEffect(() => {
+    const accessKey = encryptedKey && decryptKey(encryptedKey);
 
-    if(passkey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY){
-   const encryptedKey = encryptKey(passkey);
+    if (path)
+      if (accessKey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY!.toString()) {
+        setOpen(false);
+        router.push("/admin");
+      } else {
+        setOpen(true);
+      }
+  }, [encryptedKey]);
 
-   localStorage.setItem('accessKey',encryptedKey);
-
-    setOpen(false);
-    }else{
-      setError('Invalid passkey.Please try again')
-    }
-  }
   const closeModal = () => {
     setOpen(false);
     router.push("/");
+  };
+
+  const validatePasskey = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+
+    if (passkey === process.env.NEXT_PUBLIC_ADMIN_PASSKEY) {
+      const encryptedKey = encryptKey(passkey);
+
+      localStorage.setItem("accessKey", encryptedKey);
+
+      setOpen(false);
+    } else {
+      setError("Invalid passkey. Please try again.");
+    }
   };
 
   return (
@@ -77,7 +77,7 @@ if(path){
               alt="close"
               width={20}
               height={20}
-              onChange={() => closeModal()}
+              onClick={() => closeModal()}
               className="cursor-pointer"
             />
           </AlertDialogTitle>
@@ -86,7 +86,11 @@ if(path){
           </AlertDialogDescription>
         </AlertDialogHeader>
         <div>
-          <InputOTP maxLength={6} value={passkey} onChange={(value) => setPasskey(value)}>
+          <InputOTP
+            maxLength={6}
+            value={passkey}
+            onChange={(value) => setPasskey(value)}
+          >
             <InputOTPGroup className="shad-otp">
               <InputOTPSlot className="shad-otp-slot" index={0} />
               <InputOTPSlot className="shad-otp-slot" index={1} />
@@ -97,18 +101,21 @@ if(path){
             </InputOTPGroup>
           </InputOTP>
 
-          {error && <p className="shad-error text-14-regular mt-4 flex justify-center">{error} </p>}
+          {error && (
+            <p className="shad-error text-14-regular mt-4 flex justify-center">
+              {error}
+            </p>
+          )}
         </div>
-
         <AlertDialogFooter>
-          <AlertDialogAction onClick={(e)=> validatePasskey(e)} className="shad-primary-btn w-full" >
+          <AlertDialogAction
+            onClick={(e) => validatePasskey(e)}
+            className="shad-primary-btn w-full"
+          >
             Enter Admin Passkey
-
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
 };
-
-export default PassKeyModal;
