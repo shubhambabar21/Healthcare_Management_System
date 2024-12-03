@@ -3,10 +3,16 @@ import Image from "next/image";
 import RegisterForm from "@/components/forms/Registerform";
 import { getPatient, getUser } from "@/lib/actions/patient.actions";
 
-const Register = async ({ params: { userId } }: SearchParamProps) => {
+const Register = async (props: SearchParamProps) => {
+  const params = await props.params;
+
+  const {
+    userId
+  } = params;
+
   const user = await getUser(userId);
   const patient = await getPatient(userId);
- 
+
   return (
     <div className="flex h-screen max-h-screen">
       <section className="remove-scrollbar container">

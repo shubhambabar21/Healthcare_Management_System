@@ -8,16 +8,20 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-const Success = async ({
-  searchParams,
-  params: { userId },
-}: SearchParamProps) => {
+const Success = async (props: SearchParamProps) => {
+  const params = await props.params;
+
+  const {
+    userId
+  } = params;
+
+  const searchParams = await props.searchParams;
   const appointmentId = (searchParams?.appointmentId as string) || "";
   const appointment = await getAppointment(appointmentId);
 
-    const doctor = Doctors.find(
-        (doc) => doc.name === appointment.primaryPhysician
-      );
+  const doctor = Doctors.find(
+      (doc) => doc.name === appointment.primaryPhysician
+    );
 
   return (
     <div className='flex h-screen max-h-screen px-[5%]'>
